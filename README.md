@@ -55,6 +55,7 @@ Object classifiers were trained in ilastik for the following immune channels: CD
 Average intensities per cell for all channels were used to generate a 10X-like input for Seurat single cell analysis containing 138 features (antibody channels) for 3,936 cells.29 A Seurat object was generated using the Read10X function and cell metadata from the spatial proteomics image analysis was added, including the manually annotated tissue region (e.g. intima or tunica media), the presence of technical artefacts and others (Supplemental Table 1). High-quality cells were filtered by removing cells presenting outlier intensity values,acquisition bleaching or residing in out-of-focus or tissue folding areas. Further analysis for the 2,362 high-quality cells proceeded with Seurat (version 4.3.0.1) following a typical CITE-Seq analysis. For data normalization, we performed centered log ratio (CLR) transformation within cells (NormalizeData function, method ‘CLR’, margin 2). Afterwards, we detected highly variable genes (FindVariableGenes function), scaled data (ScaleData function) and performed principal component analysis (runPCA function) using 12 principal components. Subsequently, unsupervised clustering was performed using the FindNeighbours and FindClusters functions (clustering resolution of 0.2) and visualized by uniform manifold approximation and projection (UMAP) using the RunUMAP function. This reveals five clusters corresponding to distinct cell tissues (intima, adventitia, media, endothelium and lumen). Protein markers for each cluster were identified with the FindMarkers function using the ‘roc’ test (upregulated markers only), where we retained the top five ranked proteins with the highest predictive power for each cluster. This procedure was repeated for the subset of 223 immune cells identified by the whole-cell segmentation based on a combination of immune markers described above.
 
 Script: MACSima_analysis.R
+
 Loaded data: 10X_input (folder)
 
 ## Differential protein statistics LCM LC-MS/MS
@@ -62,5 +63,6 @@ Loaded data: 10X_input (folder)
 The outputted peptide precursor quantification matrix was used for differential protein analysis using MSqRob2 (version 1.6.1). We used the recommended pipeline, including log transformation of precursor intensities, requiring precursors to be quantified at least twice, and sample median normalization. Afterwards, precursor intensities were summarized at the protein level, using the aggregateFeatures function. The multidimensional scaling (MDS) plot of protein-level expression data shows VSMC and occlusion replicate samples to cluster coherently. Next, a MSqRob model was fitted using robust linear regression and the condition (VSMC or occlusion) was specified as covariate and contrast of interest. Nine differentially regulated proteins (p-value ≤ 0.01 and fold change ≥ 2) were identified.
 
 Raw proteomics data: PRIDE PXD057183
+
 Script: MSqRob.R
 
